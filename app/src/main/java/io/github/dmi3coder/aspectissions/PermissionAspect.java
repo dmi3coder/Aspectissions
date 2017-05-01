@@ -14,8 +14,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 @Aspect
 public class PermissionAspect {
 
-  @Around("execution(@DangerousPermission * *(..))")
-  public Object beforeDangerousMethod(ProceedingJoinPoint point)
+  @Around("execution(@DangerousPermission void *(..))")
+  public void beforeDangerousMethod(ProceedingJoinPoint point)
       throws Throwable {
     Activity activity = ((Activity) point.getThis());
     DangerousPermission dangerousPermission =
@@ -23,16 +23,12 @@ public class PermissionAspect {
             .getAnnotation(DangerousPermission.class);
     String requiredPermission = dangerousPermission.value();
     if (VERSION.SDK_INT >= VERSION_CODES.M) {
-      if (activity.checkSelfPermission(requiredPermission) == PackageManager.PERMISSION_GRANTED) {
-        point.proceed();
-        return point;
-      } else {
+      if (activity.checkSelfPermission(requiredPermission) != PackageManager.PERMISSION_GRANTED) {
         activity.requestPermissions(new String[]{requiredPermission}, 1);
-        return point;
+        return;
       }
     }
     point.proceed();
-    return point;
   }
 }
 

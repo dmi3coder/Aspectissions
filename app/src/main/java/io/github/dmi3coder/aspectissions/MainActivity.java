@@ -1,8 +1,6 @@
 package io.github.dmi3coder.aspectissions;
 
 import android.Manifest.permission;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -19,7 +17,6 @@ import java.io.IOException;
 /*
   Danger! No MVP zone :(
  */
-@SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
 
   private Button recordButton;
@@ -37,15 +34,15 @@ public class MainActivity extends AppCompatActivity {
     recordButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        recordAudio();
-        Log.d("SomeWeirdTag", "onClick: after recordAudio");
+        processAudio();
+        Log.d("SomeWeirdTag", "onClick: after processAudio");
       }
     });
     player = new MediaPlayer();
   }
 
   @DangerousPermission(permission.RECORD_AUDIO)
-  private void recordAudio() {
+  private void processAudio() {
     if (!recording) {
       player.stop();
       player.release();
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
       @NonNull int[] grantResults) {
-    recordAudio();
+    processAudio();
   }
 
 
