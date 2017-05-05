@@ -39,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
   @DangerousPermission(permission.RECORD_AUDIO)
   private void recordAudio(){
-    if(player!=null && player.isPlaying()) {
+    if(player.isPlaying()) {
       player.stop();
       player.release();
     }
-    player = null;
     recorder = prepareRecorder();
     recorder.start();
     recordButton.setText("RECORDING...");
