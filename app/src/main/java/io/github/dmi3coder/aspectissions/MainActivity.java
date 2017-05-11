@@ -1,6 +1,7 @@
 package io.github.dmi3coder.aspectissions;
 
 import android.Manifest.permission;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -17,7 +18,7 @@ import java.io.IOException;
 /*
   Danger! No MVP zone :(
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityHolder {
 
   private Button recordButton;
   private MediaRecorder recorder;
@@ -82,4 +83,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
 
+  @Override
+  public Activity getActivity() {
+    return this;
+  }
 }

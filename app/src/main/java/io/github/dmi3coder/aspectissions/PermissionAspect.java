@@ -16,13 +16,13 @@ public class PermissionAspect {
   @Around("execution(@DangerousPermission void *(..))")
   public void beforeDangerousMethod(ProceedingJoinPoint point)
       throws Throwable {
-    Activity activity = ((Activity) point.getThis());
+    Activity activity = ((ActivityHolder) point.getThis()).getActivity();//getting Activity
     MethodSignature signature = (MethodSignature) point.getSignature();
     Method method = signature.getMethod();
-
+    //Taking our required permission to check
     DangerousPermission dangerousPermission = method.getAnnotation(DangerousPermission.class);
-
     String requiredPermission = dangerousPermission.value();
+    //And.. checking
     if (VERSION.SDK_INT >= VERSION_CODES.M) {
       if (activity.checkSelfPermission(requiredPermission) != PackageManager.PERMISSION_GRANTED) {
         activity.requestPermissions(new String[]{requiredPermission}, 1);
