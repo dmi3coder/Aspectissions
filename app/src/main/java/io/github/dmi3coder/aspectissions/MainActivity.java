@@ -48,8 +48,7 @@ public class MainActivity extends AppCompatActivity implements ActivityHolder {
     recorder.start();
     recordButton.setText("RECORDING...");
     recordButton.setEnabled(false);
-    Handler h = new Handler();
-    h.postDelayed(this::playAudio,3000);
+    new Handler().postDelayed(this::playAudio,3000);
   }
 
   private void playAudio(){
